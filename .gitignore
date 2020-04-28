@@ -1,6 +1,6 @@
-*.*
-!*.py
-!*.md
-!*.csv
-!.gitee/
-!src/
+.vscode/
+.idea/
+dist/
+*.exe
+*.code-workspace
+*.zip
