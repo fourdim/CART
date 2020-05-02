@@ -3,6 +3,7 @@ __pycache__/
 .idea/
 dist/
 build/
+temp/*
 *.exe
 *.code-workspace
 *.zip
