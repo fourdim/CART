@@ -2,7 +2,7 @@
 
 #### 介绍
 This is for the csc1001 group project.
-CART和决策树是两种不同的算法，CART基于决策树，决策树较为简单。先全力解决决策树算法，之后有时间再去尝试CART.
+CART和决策树是两种不同的算法，CART基于决策树。 而本次问题只能用CART解决。
 
 
 #### git教程
