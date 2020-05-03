@@ -1,27 +1,46 @@
 """
 The program entry file.
 """
+import CART
+import file_processing
+from re import match
+from sys import exit
 
-def load_data_set():
-    """Load the data set."""
-    # TODO: 转换成元组节省内存空间，增加速度 全编完以后再换 防止出现要list性质的地方
-    # 已测试，本处代码可正常运行
-    feature_set = []
-    data_set = []
-    with open("./src/train.csv", "r") as train_file:
-        for index, line in enumerate(train_file.readlines()):
-            line_processed = line.strip().split(",")
-            if index:
-                numeric_line = list(map(float, line_processed))
-                data_set.append(numeric_line)
-            else:
-                feature_set.append(line_processed)
-    return feature_set, data_set
+def new_input(text):
+    """New input function."""
+    value = input(text)
+    if match(r"#", value):
+        exit()
+    return value
+
+def menu():
+    print("----------------------------")
+    print("Create model              -1")
+    print("Load model                -2")
+    print("----------------------------")
+    return new_input("In [num]: ")
+
+
 
 
 def main():
     """Main function."""
-    featrue_set, data_set = load_data_set()
+    print("----------------------------")
+    print("CART wine quality prediction")
+    print("----------------------------")
+    print("Please enter the path of train.csv (./src/train.csv by default).")
+    data_set_path = new_input("In [path]: ").strip()
+    if data_set_path:
+        featrue_set, data_set = file_processing.load_data_set(data_set_path)
+    else:
+        featrue_set, data_set = file_processing.load_data_set()
+    number = menu()
+    if number == "1":
+
+        CART.create_tree()
+
+    # set_above, set_below = CART.split_data_set(featrue_set, data_set, "quality", 6)
+    
 
 
 if __name__ == "__main__":
