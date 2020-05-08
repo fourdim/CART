@@ -1,5 +1,3 @@
-from node import Node
-
 
 
 def split_train_verify(data_set):
@@ -114,6 +112,28 @@ def prune(cart_tree, feature_set, verify_set):
         return avg
     return cart_tree
 
+def trace(cart_tree, feature_dict, element):
+    if element[feature_dict[cart_tree["feature"]]] > cart_tree["value"]:
+        if isinstance(cart_tree["left"], dict):
+            return trace(cart_tree["left"], feature_dict, element)
+        else:
+            return cart_tree["left"]
+    else:
+        if isinstance(cart_tree["right"], dict):
+            return trace(cart_tree["right"], feature_dict, element)
+        else:
+            return cart_tree["right"]
 
-def predict(cart_tree, featrue_set, data_set):
-    pass
+
+def predict(cart_tree, feature_set, data_set):
+    feature_dict = {}
+    for index, feature in enumerate(feature_set):
+        feature_dict[feature] = index
+    results = []
+    for element in data_set:
+        results.append((trace(cart_tree, feature_dict, element), element[-1]))
+    return results
+
+
+if __name__ == "__main__":
+    print("Please run main.py")

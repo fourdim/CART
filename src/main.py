@@ -44,15 +44,15 @@ def main():
     print("Please enter the path of train.csv (./src/train.csv by default).")
     data_set_path = new_input("In [path]: ")
     if data_set_path:
-        featrue_set, data_set = fp.load_data_set(data_set_path)
+        feature_set, data_set = fp.load_data_set(data_set_path)
     else:
-        featrue_set, data_set = fp.load_data_set()
+        feature_set, data_set = fp.load_data_set()
     data_set, verify_set = CART.split_train_verify(data_set)
     number = menu_model()
     if number == "1":
         print("Loading...")
-        cart_tree = CART.create_tree(featrue_set, data_set)
-        cart_tree = CART.prune(cart_tree, featrue_set, verify_set)
+        cart_tree = CART.create_tree(feature_set, data_set)
+        cart_tree = CART.prune(cart_tree, feature_set, verify_set)
         fp.dump_model(cart_tree)
     elif number == "2":
         print("Please enter the path of model.json (./src/model.json by default).")
@@ -66,27 +66,27 @@ def main():
     print("Please enter the path of test.csv (./src/test.csv by default).")
     data_set_path = new_input("In [path]: ")
     if data_set_path:
-        featrue_set, data_set = fp.load_data_set(data_set_path)
+        feature_set, data_set = fp.load_data_set(data_set_path)
     else:
-        featrue_set, data_set = fp.load_data_set("./src/test.csv")
-    results = CART.predict(cart_tree, featrue_set, data_set)
+        feature_set, data_set = fp.load_data_set("./src/test.csv")
+    results = CART.predict(cart_tree, feature_set, data_set)
     number = menu_prediction()
     if number == "1":
         correct = 0
         print("Prediction Fact")
         for result in results:
-            result = map(mapping, result)
+            result = tuple(map(mapping, result))
             print(result[0], result[1])
             if result[0] == result[1]:
                 correct = correct + 1
-        print(correct / len(results))
+        print("The accuracy is", correct * 100 / len(results), "%")
     elif number == "2":
         mse = 0
         print("Prediction Fact")
         for result in results:
             print(result[0], result[1])
             mse = mse + (result[0] - result[1]) ** 2
-        print(mse / len(results))
+        print("The MSE is", mse / len(results))
     else:
         exit()
     
