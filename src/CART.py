@@ -8,7 +8,6 @@ def split_train_verify(data_set):
 
 def split_data_set(feature_set, data_set, feature, value):
     """Split the data set in terms of a specific value."""
-    # 已测试本处代码正常运行
     for index, element in enumerate(feature_set):
         if element == feature:
             feature_no = index

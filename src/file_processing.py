@@ -3,8 +3,6 @@ from sys import exit
 
 def load_data_set(file_path = "./src/train.csv"):
     """Load the data set."""
-    # TODO: 转换成元组节省内存空间，增加速度 全编完以后再换 防止出现要list性质的地方
-    # 已测试，本处代码可正常运行
     feature_set = []
     data_set = []
     try:

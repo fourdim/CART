@@ -51,8 +51,8 @@ def main():
             feature_set, data_set = fp.load_data_set()
         data_set, verify_set = CART.split_train_verify(data_set)
         print("Loading...")
-        cart_tree = CART.create_tree(feature_set, data_set)
-        cart_tree = CART.prune(cart_tree, feature_set, verify_set)
+        cart_tree = CART.create_tree(feature_set[:-1], data_set)
+        cart_tree = CART.prune(cart_tree, feature_set[:-1], verify_set)
         fp.dump_model(cart_tree)
     elif number == "2":
         print("Please enter the path of model.json (./src/model.json by default).")
