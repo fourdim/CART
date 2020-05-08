@@ -32,9 +32,9 @@ def load_model(file_path="./src/model.json"):
     return model
 
 
-def dump_model(model):
+def dump_model(model, file_path="./src/model.json"):
     try:
-        with open("./src/model.json", "w") as model_file:
+        with open(file_path, "w") as model_file:
             model_file.write(dumps(model, sort_keys=True, indent=4))
         print("Model construction complete.")
     except PermissionError as exception:

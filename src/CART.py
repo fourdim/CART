@@ -29,14 +29,6 @@ def mean(target_value_list):
     return average
 
 
-def var(target_value_list):
-    average = mean(target_value_list)
-    varience = 0
-    for element in target_value_list:
-        varience = varience + (element - average) ** 2
-    return varience
-
-
 def gini(sub_set):
     sub_set_len = len(sub_set)
     good = 0
@@ -52,10 +44,8 @@ def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size
     # Find if the target value are the same.
     if target_value_list[1:] == target_value_list[:-1]:
         return None, mean(target_value_list)
-    varience = var(target_value_list)
     best_feature = 0
     best_value = 0
-    initial_gini = gini(data_set)
     best_gini = float("inf")
     for outer_index, feature in enumerate(feature_set):
         for value in set([element[outer_index] for element in data_set]):
@@ -68,7 +58,7 @@ def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size
                 best_feature = feature
                 best_value = value
                 best_gini = new_gini
-    if (initial_gini - best_gini) < branch_max_error:
+    if (gini(data_set) - best_gini) < branch_max_error:
         return None, mean(target_value_list)
     return best_feature, best_value
 

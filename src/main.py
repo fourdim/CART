@@ -83,6 +83,7 @@ def main():
     elif number == "2":
         mse = 0
         print("Prediction Fact")
+        # fp.dump_model(results, "./src/result.json")
         for result in results:
             print(result[0], result[1])
             mse = mse + (result[0] - result[1]) ** 2
