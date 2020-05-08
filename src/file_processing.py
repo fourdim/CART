@@ -19,7 +19,7 @@ def load_data_set(file_path = "./src/train.csv"):
     except (FileNotFoundError, PermissionError) as exception:
         print(exception)
         exit()
-    return feature_set, data_set
+    return tuple(feature_set), tuple(data_set)
 
 
 def load_model(file_path="./src/model.json"):
@@ -34,8 +34,9 @@ def load_model(file_path="./src/model.json"):
 
 def dump_model(model):
     try:
-        with open("model.json", "w") as model_file:
+        with open("./src/model.json", "w") as model_file:
             model_file.write(dumps(model, sort_keys=True, indent=4))
+        print("Model construction complete.")
     except PermissionError as exception:
         print(exception)
         exit()
