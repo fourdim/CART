@@ -2,8 +2,10 @@ from node import Node
 
 
 
-def split_main_prune():
-    pass
+def split_train_verify(data_set):
+    verify_set = data_set[900:]
+    data_set = data_set[:900]
+    return data_set, verify_set
 
 
 def split_data_set(feature_set, data_set, feature, value):
@@ -37,22 +39,60 @@ def var(target_value_list):
     return varience
 
 
+def gini(sub_set):
+    sub_set_len = len(sub_set)
+    good = 0
+    for set_row in sub_set:
+        if set_row[-1] > 6:
+            good = good + 1
+    gini_index = 1 - (good / sub_set_len) ** 2 - ((sub_set_len - good) / sub_set_len) ** 2
+    return gini_index
+
+
 def get_shape(data_set):
     row = len(data_set)
     col = len(data_set[0])
     return row, col
 
 
-def best_split_strategy(data_set, branch_max_error, branch_min_size):
+def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size):
     target_value_list = get_target_value_list(data_set)
     # Find if the target value are the same.
     if target_value_list[1:] == target_value_list[:-1]:
         return None, mean(target_value_list)
+    varience = var(target_value_list)
+    best_feature = 0
+    best_value = 0
+    initial_gini = gini(data_set)
+    best_gini = float("inf")
+    for outer_index, feature in enumerate(feature_set):
+        for value in set([element[outer_index] for element in data_set]):
+            set_above, set_below = split_data_set(feature_set, data_set, feature, value)
+            if len(set_above) < branch_min_size or len(set_below) < branch_min_size:
+                continue
+            new_gini = (len(set_above) * gini(set_above)
+                      + len(set_below) * gini(set_below)) / len(data_set)
+            if new_gini < best_gini:
+                best_feature = feature
+                best_value = value
+                best_gini = new_gini
+    if (initial_gini - best_gini) < branch_max_error:
+        return None, mean(target_value_list)
+    return best_feature, best_value
 
 
-def create_tree(data_set, branch_max_error, branch_min_size):
-    pass
+def create_tree(feature_set, data_set, branch_max_error=0, branch_min_size=1):
+    feature, value = best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size)
+    if feature is None:
+        return value
+    cart_tree = {}
+    cart_tree["feature"] = feature
+    cart_tree["value"] = value
+    set_above, set_below = split_data_set(feature_set, data_set, feature, value)
+    cart_tree["left"] = create_tree(feature_set, set_above, branch_max_error, branch_min_size)
+    cart_tree["right"] = create_tree(feature_set, set_below, branch_max_error, branch_min_size)
+    return cart_tree
 
 
-def prune(tree, prune_data_set):
-    pass
+def prune(cart_tree, verify_set):
+    return cart_tree
