@@ -89,11 +89,10 @@ def create_tree(feature_set, data_set, branch_max_error=0, branch_min_size=1):
 
 
 def get_tree_mean(cart_tree):
-    if isinstance(cart_tree, dict):
-        if isinstance(cart_tree["left"], dict):
-            cart_tree["left"] = get_tree_mean(cart_tree["left"])
-        if isinstance(cart_tree["right"], dict):
-            cart_tree["right"] = get_tree_mean(cart_tree["right"])
+    if isinstance(cart_tree["left"], dict):
+        cart_tree["left"] = get_tree_mean(cart_tree["left"])
+    if isinstance(cart_tree["right"], dict):
+        cart_tree["right"] = get_tree_mean(cart_tree["right"]) 
     return (cart_tree["left"] + cart_tree["right"]) / 2
 
 
@@ -107,12 +106,13 @@ def prune(cart_tree, feature_set, verify_set):
         if isinstance(cart_tree["right"], dict):    
             cart_tree["right"] = prune(cart_tree["right"], feature_set, set_below)
         return cart_tree
-    error_no_merge = sum([element - cart_tree["left"] for element in get_target_value_list(set_above)]) + \
-                     sum([element - cart_tree["right"] for element in get_target_value_list(set_below)])
+    error_no_merge = sum([(element - cart_tree["left"]) ** 2 for element in get_target_value_list(set_above)]) + \
+                     sum([(element - cart_tree["right"]) ** 2 for element in get_target_value_list(set_below)])
     avg = (cart_tree["left"] + cart_tree["right"]) / 2
-    error_merge = sum([element - avg for element in get_target_value_list(verify_set)])
+    error_merge = sum([(element - avg) ** 2 for element in get_target_value_list(verify_set)])
     if error_merge < error_no_merge:
         return avg
+    return cart_tree
 
 
 def predict(cart_tree, featrue_set, data_set):
