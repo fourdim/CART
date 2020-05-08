@@ -27,6 +27,7 @@ def menu_prediction():
     print("Classification            -1")
     print("Regression                -2")
     print("----------------------------")
+    return new_input("In [num]: ")
 
 
 def mapping(target):
@@ -49,8 +50,9 @@ def main():
     data_set, verify_set = CART.split_train_verify(data_set)
     number = menu_model()
     if number == "1":
+        print("Loading...")
         cart_tree = CART.create_tree(featrue_set, data_set)
-        cart_tree = CART.prune(cart_tree, verify_set)
+        cart_tree = CART.prune(cart_tree, featrue_set, verify_set)
         fp.dump_model(cart_tree)
     elif number == "2":
         print("Please enter the path of model.json (./src/model.json by default).")
@@ -66,7 +68,7 @@ def main():
     if data_set_path:
         featrue_set, data_set = fp.load_data_set(data_set_path)
     else:
-        featrue_set, data_set = fp.load_data_set()
+        featrue_set, data_set = fp.load_data_set("./src/test.csv")
     results = CART.predict(cart_tree, featrue_set, data_set)
     number = menu_prediction()
     if number == "1":

@@ -49,12 +49,6 @@ def gini(sub_set):
     return gini_index
 
 
-def get_shape(data_set):
-    row = len(data_set)
-    col = len(data_set[0])
-    return row, col
-
-
 def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size):
     target_value_list = get_target_value_list(data_set)
     # Find if the target value are the same.
@@ -94,5 +88,32 @@ def create_tree(feature_set, data_set, branch_max_error=0, branch_min_size=1):
     return cart_tree
 
 
-def prune(cart_tree, verify_set):
-    return cart_tree
+def get_tree_mean(cart_tree):
+    if isinstance(cart_tree, dict):
+        if isinstance(cart_tree["left"], dict):
+            cart_tree["left"] = get_tree_mean(cart_tree["left"])
+        if isinstance(cart_tree["right"], dict):
+            cart_tree["right"] = get_tree_mean(cart_tree["right"])
+    return (cart_tree["left"] + cart_tree["right"]) / 2
+
+
+def prune(cart_tree, feature_set, verify_set):
+    if len(verify_set) == 0:
+        return get_tree_mean(cart_tree)
+    set_above, set_below = split_data_set(feature_set, verify_set, cart_tree["feature"], cart_tree["value"])
+    if isinstance(cart_tree["left"], dict) or isinstance(cart_tree["right"], dict):
+        if isinstance(cart_tree["left"], dict):
+            cart_tree["left"] = prune(cart_tree["left"], feature_set, set_above)
+        if isinstance(cart_tree["right"], dict):    
+            cart_tree["right"] = prune(cart_tree["right"], feature_set, set_below)
+        return cart_tree
+    error_no_merge = sum([element - cart_tree["left"] for element in get_target_value_list(set_above)]) + \
+                     sum([element - cart_tree["right"] for element in get_target_value_list(set_below)])
+    avg = (cart_tree["left"] + cart_tree["right"]) / 2
+    error_merge = sum([element - avg for element in get_target_value_list(verify_set)])
+    if error_merge < error_no_merge:
+        return avg
+
+
+def predict(cart_tree, featrue_set, data_set):
+    pass
