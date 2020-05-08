@@ -41,15 +41,15 @@ def main():
     print("----------------------------")
     print("CART wine quality prediction")
     print("----------------------------")
-    print("Please enter the path of train.csv (./src/train.csv by default).")
-    data_set_path = new_input("In [path]: ")
-    if data_set_path:
-        feature_set, data_set = fp.load_data_set(data_set_path)
-    else:
-        feature_set, data_set = fp.load_data_set()
-    data_set, verify_set = CART.split_train_verify(data_set)
     number = menu_model()
     if number == "1":
+        print("Please enter the path of train.csv (./src/train.csv by default).")
+        data_set_path = new_input("In [path]: ")
+        if data_set_path:
+            feature_set, data_set = fp.load_data_set(data_set_path)
+        else:
+            feature_set, data_set = fp.load_data_set()
+        data_set, verify_set = CART.split_train_verify(data_set)
         print("Loading...")
         cart_tree = CART.create_tree(feature_set, data_set)
         cart_tree = CART.prune(cart_tree, feature_set, verify_set)
