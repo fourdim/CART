@@ -1,8 +1,8 @@
 
 
 def split_train_verify(data_set):
-    verify_set = data_set[900:]
-    data_set = data_set[:900]
+    verify_set = data_set[910:]
+    data_set = data_set[:910]
     return data_set, verify_set
 
 
