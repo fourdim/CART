@@ -59,6 +59,9 @@ def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size
                 best_gini = new_gini
     if (gini(data_set) - best_gini) < branch_max_error:
         return None, mean(target_value_list)
+    set_above, set_below = split_data_set(feature_set, data_set, best_feature, best_value)
+    if max(len(set_above), len(set_below)) < branch_min_size:
+        return None, mean(target_value_list)
     return best_feature, best_value
 
 

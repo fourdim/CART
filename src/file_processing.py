@@ -1,5 +1,4 @@
 from json import loads, dumps
-from sys import exit
 
 def load_data_set(file_path = "./src/train.csv"):
     """Load the data set."""

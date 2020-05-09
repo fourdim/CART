@@ -3,13 +3,11 @@ The program entry file.
 """
 import CART
 import file_processing as fp
-from re import match
-from sys import exit
 
 def new_input(text):
     """New input function."""
     value = input(text).strip()
-    if match(r"#", value):
+    if value.startswith("#"):
         exit()
     return value
 
