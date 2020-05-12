@@ -12,6 +12,13 @@ def new_input(text):
     return value
 
 
+def round(number):
+    number = str(number)
+    if len(number) > 3:
+        number = float(number[:3])
+    return float(number)
+
+
 def menu_model():
     print("----------------------------")
     print("Create model              -1")
@@ -74,7 +81,10 @@ def main():
         print("Prediction Fact")
         for result in results:
             result = tuple(map(mapping, result))
-            print(result[0], result[1])
+            print(result[0], end=" ")
+            if result[0]:
+                print(end=" ")
+            print(result[1])
             if result[0] == result[1]:
                 correct = correct + 1
         print("The accuracy is", correct * 100 / len(results), "%")
@@ -83,12 +93,12 @@ def main():
         print("Prediction Fact")
         # fp.dump_model(results, "./src/result.json")
         for result in results:
-            print(result[0], result[1])
+            print(round(result[0]), result[1])
             mse = mse + (result[0] - result[1]) ** 2
         print("The MSE is", mse / len(results))
     else:
         exit()
-    
+
 
 if __name__ == "__main__":
     main()

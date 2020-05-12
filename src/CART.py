@@ -53,7 +53,7 @@ def best_split_strategy(feature_set, data_set, branch_max_error, branch_min_size
                 continue
             new_gini = (len(set_above) * gini(set_above)
                       + len(set_below) * gini(set_below)) / len(data_set)
-            if new_gini < best_gini:
+            if new_gini <= best_gini:
                 best_feature = feature
                 best_value = value
                 best_gini = new_gini
