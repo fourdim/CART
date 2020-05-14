@@ -1,66 +1,97 @@
-# csc1001 CART
+# CSC1001 CART
 
-#### 介绍
-This is for the csc1001 group project.
-CART和决策树是两种不同的算法，CART基于决策树。 而本次问题只能用CART解决。
+## 1. Questions
+Dataset2: **The Classification and Regression of Red Wine Quality**.
 
+Number | Feature | Explanation 
+:-: | :-: | :-- 
+1 | fixed acidity | most acids involved with wine or fixed or nonvolatile (do not evaporate readily)
+2 | volatile acidity | the amount of acetic acid in wine, which at too high of levels can lead to an unpleasant, vinegar taste
+3 | citric acid | found in small quantities, citric acid can add 'freshness' and flavor to wines
+4 | residual sugar | the amount of sugar remaining after fermentation stops, it's rare to find wines with less than 1 gram/liter and wines with greater than 45 grams/liter are considered sweet
+5 | chlorides | the amount of salt in the wine
+6 | free sulfur dioxide | the free form of SO2 exists in equilibrium between molecular SO2 (as a dissolved gas) and bisulfite ion; it prevents microbial growth and the oxidation of wine
+7 | total sulfur dioxide | amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine
+8 | density | the density of water is close to that of water depending on the percent alcohol and sugar content
+9 | pH | describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic); most wines are between 3-4 on the pH scale
+10 | sulphates | a wine additive which can contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial and antioxidant
+11 | alcohol | the percent alcohol content of the wine
+12 | quality | output variable (based on sensory data, score between 0 and 10)
 
-#### git教程
+We choose both questions in the dataset2, predict whether the result is above 6 (>6) or not and predict the result.
 
-1.  安装git  
-   安装时所有配置全都选择默认的 不用改
+We report the accuracy and MSE.
 
-   https://www.liaoxuefeng.com/wiki/896043488029600/896067074338496
+## 2. Approaches that we thought about trying.
+We have thought to try the normal binary decision tree.
+However, after research, we found that the normal binary decision tree can just fit the variables of the discrete type.
+Therefore, we give it up.
+Then, we found that CART is based on the dicision tree can solve the continuous type variables. 
 
-2.  使用 git clone 拷贝一个 Git 仓库到本地，让自己能够查看该项目，或者进行修改。
-如果你需要与他人合作一个项目，或者想要复制一个项目，看看代码，你就可以克隆那个项目。
-如何打开Git Bash：Windows键 输入Git 选择Git Bash打开
-打开Git Bash输入：
+## 3. The final approach
+
+### Best split strategy and tree creation
+
+CART is built by splitting the source set, constituting the root node of the tree, into subsets—which constitute the successor children. The splitting is based on gini index which chooses the best feature to split. This process is repeated on each derived subset in a recursive manner called recursive partitioning. The recursion is completed when the subset at a node has all the same values of the target variable, or when splitting no longer adds value to the predictions. This process of top-down induction of decision trees (TDIDT) is an example of a greedy algorithm.
+
+### Pruning
+
+One of the questions that arises in CART algorithm is the optimal size of the final tree. A tree that is too large risks overfitting the training data and poorly generalizing to new samples. A small tree might not capture important structural information about the sample space. However, it is hard to tell when a tree algorithm should stop because it is impossible to tell if the addition of a single extra node will dramatically decrease error. This problem is known as the horizon effect. A common strategy is to grow the tree until each node contains a small number of instances then use pruning to remove nodes that do not provide additional information.
+
+#### Pre-pruning
+
+Modify tree generation conditions. When the leaf error estimation and branch size is small enough, stop creating the tree, generating a leaf that can describe this branch generally.
+
+#### Post-pruning
+
+Use another dataset to evaluate the CART tree. Calculate the degree of fit and the cost of pruning to collapse the branch.
+
+## 4. Working principle and logic of the approach
+
+```mermaid
+graph TD
+AA(Begin) --> AB[Choose best split strategy]
+AB --> AC{Create tree}
+AC -->|Complete|AD{Prune the tree}
+AC -->|Incomplete|AB
+AD -->|Incomplete|AD{Prune the tree}
+AD -->|Complete|AE{Predict}
+AE -->|Classfication|AF[Map the value]
+AE -->|Regression|AG[Caculate the error]
+AF --> AG
+AG --> AH[Output]
+AH --> AI(End)
 ```
-cd /d/                                       #切换到d盘根目录（为保证环境一致请不要切换成不同的目录）
-git clone https://gitee.com/fourdim/CART.git #从云上克隆并初始化仓库
-```
-输入用户名密码（gitee的用户名密码）
-如果输入错了 请打开\控制面板\用户帐户\凭据管理器\Windows凭据修改
-克隆完成后，在d盘下会生成一个CART目录
 
-3.  打开Git Bash输入
-```
-cd /d/CART/ # 切换到csc1001目录
-code .         # 自动打开VSCODE，没有VSCODE的请下载一个 注意有一个空格有一个点
-```
+## 5. Results
 
-4.  如何同步云上内容（建议每次修改代码前同步一次）打开Git bash或者vscode里面的Terminal输入
-```
-git pull origin master
-```
+1. `Acurracy` = 86.7%
+2. `MSE` = 0.546
 
-5.  如何把代码送到云上
-**三步一步不可少！！！**
-#中文是图形化的教程 英文是命令行 也就是PS D:\CART> 后要输入的内容 二者选一个 作用都一样
+## 6. Conclusions
 
-其实相比于图形化 命令行更为简单
-```
-git add
-# 将修改后的文件加入到暂存区 与左侧第三栏的叉子形状图标中的加号作用相同
-git commit -m 'Fix a bug.'
-# 提交到本地库 与左侧第三栏的叉子形状图标中的对号作用相同 在提交时请添加本次修改的注释（引号内内容）。
-# 或者在vscode左上角中对号下面的黑框添加注释（最好英文）再点对号
-git push
-# 发送给远程库 与左侧第三栏的叉子形状图标中的···号下拉菜单里的push作用相同
-```
+In conclusion, the model crested by CART is quite fine to predict the wine quality.
 
-6.  更多不会的内容怎么办
-- 先查教程
-  - Kinely的[Git教程](https://bb.cuhk.edu.cn/webapps/blackboard/execute/content/file?cmd=view&content_id=_74890_1&course_id=_2602_1)  (需要登陆后获取)
-  - 码云官方提供的 [使用手册](https://gitee.com/help)
-  - [廖雪峰的git教程](https://www.liaoxuefeng.com/wiki/896043488029600)
-  - [Runoob的git教程](https://www.runoob.com/git/git-tutorial.html)
-  - vscode 与 gitee 联合使用 [教程](https://blog.csdn.net/watfe/article/details/79761741)
-- 为什么不问问万能的搜索引擎呢
-- 再来问我
+## 7. Contribution
 
-#### 实战演练
+We used git to cooperate. As everyone contributes the same file at the different time, therefore it may be not easy to state the contribution and workload acurrately.
 
-在开始尝试文件夹里的README.md加上你的名字。（不是本文件）
-请不用顾忌你会把代码改坏，git具有版本回退功能，可以一键还原。
+**Contribution**
+
+main.py            Deng, Jiangwei; Zhou, Jingzhe
+
+file_processing.py Zhang, Siwei
+
+CART.py            Zhang, Siwei; Deng, Jiangwei; Zhou, Jingzhe
+
+Debug              Zhang, Siwei
+
+Bug Fixing         Zhang, Siwei
+
+**Workload**
+
+119010440 Zhang, Siwei 40%
+
+119010057 Deng, Jiangwei 30%
+
+119010470 Zhou, Jingzhe 30%
