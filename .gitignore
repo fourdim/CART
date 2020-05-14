@@ -6,4 +6,3 @@ build/
 temp/*
 *.exe
 *.code-workspace
-*.zip
