@@ -1,6 +1,7 @@
+"""Processing the files."""
 from json import loads, dumps
 
-def load_data_set(file_path = "./src/train.csv"):
+def load_data_set(file_path="./src/train.csv"):
     """Load the data set."""
     feature_set = []
     data_set = []
@@ -15,25 +16,27 @@ def load_data_set(file_path = "./src/train.csv"):
                     feature_set = line_processed
     except (FileNotFoundError, PermissionError) as exception:
         print(exception)
-        exit()
+        exit() # I should have use sys.exit(). However, sys is not built-in.
     return tuple(feature_set), tuple(data_set)
 
 
 def load_model(file_path="./src/model.json"):
+    """Load the model."""
     try:
         with open(file_path, "r") as model_file:
             model = loads(model_file.read())
     except (FileNotFoundError, PermissionError) as exception:
         print(exception)
-        exit()
+        exit() # I should have use sys.exit(). However, sys is not built-in.
     return model
 
 
 def dump_model(model, file_path="./src/model.json"):
+    """Dump the model."""
     try:
         with open(file_path, "w") as model_file:
             model_file.write(dumps(model, sort_keys=True, indent=4))
         print("Model construction complete.")
     except PermissionError as exception:
         print(exception)
-        exit()
+        exit() # I should have use sys.exit(). However, sys is not built-in.
