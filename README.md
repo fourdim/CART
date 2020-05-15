@@ -3,6 +3,8 @@
 ## 1. Questions
 Dataset2: **The Classification and Regression of Red Wine Quality**.
 
+<u>**There are some `BLANK` due to the error of markdown application.**</u>
+
 Number | Feature | Explanation 
 :-: | :-: | :-- 
 1 | fixed acidity | most acids involved with wine or fixed or nonvolatile (do not evaporate readily)
@@ -14,7 +16,7 @@ Number | Feature | Explanation
 7 | total sulfur dioxide | amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine
 8 | density | the density of water is close to that of water depending on the percent alcohol and sugar content
 9 | pH | describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic); most wines are between 3-4 on the pH scale
-10 | sulphates | a wine additive which can contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial and antioxidant
+10 | sulphates | a wine additive which can contribute to sulfur dioxide gas (S02) levels, which acts as an antimicrobial and antioxidant 
 11 | alcohol | the percent alcohol content of the wine
 12 | quality | output variable (based on sensory data, score between 0 and 10)
 
@@ -26,13 +28,13 @@ We report the accuracy and MSE.
 We have thought to try the normal binary decision tree.
 However, after research, we found that the normal binary decision tree can just fit the variables of the discrete type.
 Therefore, we give it up.
-Then, we found that CART is based on the dicision tree can solve the continuous type variables. 
+Then, we found that CART is based on the decision tree can solve the continuous type variables. 
 
 ## 3. The final approach
 
 ### Best split strategy and tree creation
 
-CART is built by splitting the source set, constituting the root node of the tree, into subsets—which constitute the successor children. The splitting is based on gini index which chooses the best feature to split. This process is repeated on each derived subset in a recursive manner called recursive partitioning. The recursion is completed when the subset at a node has all the same values of the target variable, or when splitting no longer adds value to the predictions. This process of top-down induction of decision trees (TDIDT) is an example of a greedy algorithm.
+CART is built by splitting the source set, constituting the root node of the tree, into subsets—which constitute the successor children. The splitting is based on Gini index which chooses the best feature to split. This process is repeated on each derived subset in a recursive manner called recursive partitioning. The recursion is completed when the subset at a node has all the same values of the target variable, or when splitting no longer adds value to the predictions. This process of top-down induction of decision trees (TDIDT) is an example of a greedy algorithm.
 
 ### Pruning
 
@@ -70,23 +72,25 @@ AH --> AI(End)
 
 ## 6. Conclusions
 
-In conclusion, the model crested by CART is quite fine to predict the wine quality.
+In conclusion, the model created by CART is quite fine to predict the wine quality.
+
+The model implies that alcohol is one of the most important features that decide the quality of the red wine. And every feature can influence the wine quality.
 
 ## 7. Contribution
 
-We used git to cooperate. As everyone contributes the same file at the different time, therefore it may be not easy to state the contribution and workload acurrately.
+We used git to cooperate. As everyone contributes the same file at the different time, therefore it may be not easy to state the contribution and workload accurately.
 
 **Contribution**
 
-main.py            Deng, Jiangwei; Zhou, Jingzhe
+main.py                   Deng, Jiangwei; Zhou, Jingzhe
 
-file_processing.py Zhang, Siwei
+file_processing.py  Zhang, Siwei
 
-CART.py            Zhang, Siwei; Deng, Jiangwei; Zhou, Jingzhe
+CART.py                   Zhang, Siwei; Deng, Jiangwei; Zhou, Jingzhe
 
-Debug              Zhang, Siwei
+Debug                     Zhang, Siwei
 
-Bug Fixing         Zhang, Siwei
+Bug Fixing              Zhang, Siwei
 
 **Workload**
 
