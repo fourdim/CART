@@ -79,23 +79,3 @@ The model implies that alcohol is one of the most important features that decide
 ## 7. Contribution
 
 We used git to cooperate. As everyone contributes the same file at the different time, therefore it may be not easy to state the contribution and workload accurately.
-
-**Contribution**
-
-main.py                   Deng, Jiangwei; Zhou, Jingzhe
-
-file_processing.py  Zhang, Siwei
-
-CART.py                   Zhang, Siwei; Deng, Jiangwei; Zhou, Jingzhe
-
-Debug                     Zhang, Siwei
-
-Bug Fixing              Zhang, Siwei
-
-**Workload**
-
-119010440 Zhang, Siwei 40%
-
-119010057 Deng, Jiangwei 30%
-
-119010470 Zhou, Jingzhe 30%
