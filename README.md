@@ -1,9 +1,8 @@
-# CSC1001 CART
+# CART
 
 ## 1. Questions
-Dataset2: **The Classification and Regression of Red Wine Quality**.
+**The Classification and Regression of Red Wine Quality**.
 
-<u>**There are some `BLANK` due to the error of markdown application.**</u>
 
 Number | Feature | Explanation 
 :-: | :-: | :-- 
@@ -75,7 +74,3 @@ AH --> AI(End)
 In conclusion, the model created by CART is quite fine to predict the wine quality.
 
 The model implies that alcohol is one of the most important features that decide the quality of the red wine. And every feature can influence the wine quality.
-
-## 7. Contribution
-
-We used git to cooperate. As everyone contributes the same file at the different time, therefore it may be not easy to state the contribution and workload accurately.
