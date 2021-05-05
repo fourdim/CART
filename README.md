@@ -66,7 +66,7 @@ AH --> AI(End)
 
 ## 5. Results
 
-1. `Acurracy` = 86.7%
+1. `Accurracy` = 86.7%
 2. `MSE` = 0.546
 
 ## 6. Conclusions
